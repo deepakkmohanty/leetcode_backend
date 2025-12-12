@@ -1,7 +1,8 @@
 const express = require('express');
 const bodyParser = require('body-parser')
 const {PORT} = require('./config/server.config')
-const apiRoute = require('./routes')
+const apiRoute = require('./routes');
+const errorHandler = require('./utils/errorHandler');
 const app = express();
 
 app.use(bodyParser.json());
@@ -15,6 +16,9 @@ app.get('/',(req,res)=>{
 })
 
 app.use('/api',apiRoute)
+
+// Error Middleware
+app.use(errorHandler)
 
 app.listen(PORT,()=>{
     console.log(`Server running on port: ${PORT} 🚀`)
