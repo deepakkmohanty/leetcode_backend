@@ -1,32 +1,42 @@
-const UnImplemented = require("../errors/unImplemented.error");
+const { ProblemService } = require('../services');
+const { ProblemRepositories } = require('../repositories');
+const { StatusCodes } = require('http-status-codes');
 
-function pingPung(req,res){
+const problemService = new ProblemService(new ProblemRepositories());
+
+function pingPung(req, res) {
     return res.json({
-        message:"Hello from problem controller!"
-    })
+        message: 'Hello from problem controller!',
+    });
 }
 
-function addProblem(req,res,next){
+async function addProblem(req, res, next) {
     try {
-        throw new UnImplemented("Add Problem not implemented!");
+        const newProblem = await problemService.createProblem(req.body);
+        return res.status(StatusCodes.CREATED).json({
+            success: true,
+            message: 'Created problem successfully.',
+            error: {},
+            data: newProblem,
+        });
     } catch (error) {
-        next(error)
+        next(error);
     }
 }
 
-function getProblem(req,res){}
+function getProblem(req, res) {}
 
-function getProblems(req,res){}
+function getProblems(req, res) {}
 
-function updateProblem(req,res){}
+function updateProblem(req, res) {}
 
-function deleteProblem(req,res){}
+function deleteProblem(req, res) {}
 
-module.exports ={
+module.exports = {
     addProblem,
     getProblem,
     getProblems,
     updateProblem,
     deleteProblem,
-    pingPung
-}
+    pingPung,
+};
