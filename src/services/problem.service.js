@@ -1,3 +1,4 @@
+const { StatusCodes } = require('http-status-codes');
 const { markdownSanitized } = require('../utils');
 
 class ProblemService {
@@ -13,6 +14,14 @@ class ProblemService {
             return problem;
         } catch (error) {
             console.log(error);
+            throw error;
+        }
+    }
+    async getAllProblems() {
+        try {
+            const problems = await this.problemRepositories.getAllProblems();
+            return problems;
+        } catch (error) {
             throw error;
         }
     }
